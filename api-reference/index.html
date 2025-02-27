@@ -1,0 +1,945 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A simple service for testing microphone quality over VoIP calls">
+      
+      
+      
+      
+        <link rel="prev" href="../deployment/other-options/">
+      
+      
+        <link rel="next" href="../twilio-setup/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>API Reference - Twilio Microphone Test App</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Twilio Microphone Test App" class="md-header__button md-logo" aria-label="Twilio Microphone Test App" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Twilio Microphone Test App
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yourusername/twilio-mic-test" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Twilio Microphone Test App" class="md-nav__button md-logo" aria-label="Twilio Microphone Test App" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Twilio Microphone Test App
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yourusername/twilio-mic-test" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Deployment
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Deployment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/azure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Azure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/other-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Other Options
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-voice" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /voice
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-voicerepeat" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /voice/repeat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /record
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-playback" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /playback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#twiml-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      TwiML Quick Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-custom-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Custom Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhook-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Webhook Verification
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twilio-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Twilio Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-voice" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /voice
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-voicerepeat" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /voice/repeat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /record
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-playback" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /playback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#twiml-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      TwiML Quick Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-custom-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Custom Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhook-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Webhook Verification
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>This document provides details about the API endpoints exposed by the Twilio Microphone Test App and the TwiML responses they generate.</p>
+<h2 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h2>
+<p>The application exposes four main endpoints that handle different stages of the call flow:</p>
+<h3 id="post-voice">POST /voice<a class="headerlink" href="#post-voice" title="Permanent link">&para;</a></h3>
+<p>Handles incoming first-time calls with detailed instructions.</p>
+<p><strong>Request</strong>:
+- Method: <code>POST</code>
+- Content-Type: <code>application/x-www-form-urlencoded</code>
+- Body: Twilio's standard <a href="https://www.twilio.com/docs/voice/twiml/gather#attributes-action">voice webhook parameters</a></p>
+<p><strong>Response</strong>:
+- Content-Type: <code>text/xml</code>
+- Body: TwiML that gives detailed instructions and starts recording</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>Welcome<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>microphone<span class="w"> </span>test<span class="w"> </span>service.<span class="w"> </span>This<span class="w"> </span>tool<span class="w"> </span>will<span class="w"> </span>help<span class="w"> </span>you<span class="w"> </span>test<span class="w"> </span>your<span class="w"> </span>microphone<span class="w"> </span>quality.<span class="w"> </span>After<span class="w"> </span>the<span class="w"> </span>beep,<span class="w"> </span>please<span class="w"> </span>speak<span class="w"> </span>normally<span class="w"> </span>to<span class="w"> </span>test<span class="w"> </span>your<span class="w"> </span>microphone.<span class="w"> </span>When<span class="w"> </span>you&#39;re<span class="w"> </span>finished<span class="w"> </span>recording,<span class="w"> </span>press<span class="w"> </span>the<span class="w"> </span>pound<span class="w"> </span>key.<span class="w"> </span>You&#39;ll<span class="w"> </span>then<span class="w"> </span>hear<span class="w"> </span>your<span class="w"> </span>recording<span class="w"> </span>played<span class="w"> </span>back,<span class="w"> </span>allowing<span class="w"> </span>you<span class="w"> </span>to<span class="w"> </span>evaluate<span class="w"> </span>your<span class="w"> </span>microphone&#39;s<span class="w"> </span>sound<span class="w"> </span>quality.<span class="nt">&lt;/Say&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Record</span>
+<span class="w">        </span><span class="na">action=</span><span class="s">&quot;/record&quot;</span>
+<span class="w">        </span><span class="na">maxLength=</span><span class="s">&quot;30&quot;</span>
+<span class="w">        </span><span class="na">finishOnKey=</span><span class="s">&quot;#&quot;</span>
+<span class="w">        </span><span class="na">playBeep=</span><span class="s">&quot;true&quot;</span>
+<span class="w">        </span><span class="na">trim=</span><span class="s">&quot;trim-silence&quot;</span>
+<span class="w">    </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div>
+<h3 id="post-voicerepeat">POST /voice/repeat<a class="headerlink" href="#post-voicerepeat" title="Permanent link">&para;</a></h3>
+<p>Handles subsequent recording requests with briefer instructions.</p>
+<p><strong>Request</strong>:
+- Method: <code>POST</code>
+- Content-Type: <code>application/x-www-form-urlencoded</code>
+- Body: Twilio's standard voice webhook parameters</p>
+<p><strong>Response</strong>:
+- Content-Type: <code>text/xml</code>
+- Body: TwiML that gives brief instructions and starts recording</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>Speak<span class="w"> </span>after<span class="w"> </span>the<span class="w"> </span>beep.<span class="w"> </span>Press<span class="w"> </span>pound<span class="w"> </span>when<span class="w"> </span>done.<span class="nt">&lt;/Say&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Record</span>
+<span class="w">        </span><span class="na">action=</span><span class="s">&quot;/record&quot;</span>
+<span class="w">        </span><span class="na">maxLength=</span><span class="s">&quot;30&quot;</span>
+<span class="w">        </span><span class="na">finishOnKey=</span><span class="s">&quot;#&quot;</span>
+<span class="w">        </span><span class="na">playBeep=</span><span class="s">&quot;true&quot;</span>
+<span class="w">        </span><span class="na">trim=</span><span class="s">&quot;trim-silence&quot;</span>
+<span class="w">    </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div>
+<p><strong>TwiML Elements Used for /voice and /voice/repeat</strong>:
+- <a href="https://www.twilio.com/docs/voice/twiml/say"><code>&lt;Say&gt;</code></a>: Converts text to speech to play to the caller
+- <a href="https://www.twilio.com/docs/voice/twiml/record"><code>&lt;Record&gt;</code></a>: Records the caller's voice and sends it to the specified action URL</p>
+<h3 id="post-record">POST /record<a class="headerlink" href="#post-record" title="Permanent link">&para;</a></h3>
+<p>Receives the recording data and plays it back to the caller.</p>
+<p><strong>Request</strong>:
+- Method: <code>POST</code>
+- Content-Type: <code>application/x-www-form-urlencoded</code>
+- Body: Twilio's standard <a href="https://www.twilio.com/docs/voice/twiml/record#attributes-action">recording webhook parameters</a>
+  - <code>RecordingUrl</code>: URL of the recording
+  - <code>RecordingDuration</code>: Duration of the recording in seconds
+  - Other standard parameters</p>
+<p><strong>Response</strong>:
+- Content-Type: <code>text/xml</code>
+- Body: TwiML that plays back the recording and offers to record again</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>Here<span class="w"> </span>is<span class="w"> </span>your<span class="w"> </span>recording:<span class="nt">&lt;/Say&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Play&gt;</span>https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Recordings/REXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<span class="nt">&lt;/Play&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Gather</span><span class="w"> </span><span class="na">numDigits=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">action=</span><span class="s">&quot;/playback&quot;</span><span class="w"> </span><span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Say&gt;</span>Press<span class="w"> </span>1<span class="w"> </span>to<span class="w"> </span>record<span class="w"> </span>again,<span class="w"> </span>or<span class="w"> </span>hang<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>end<span class="w"> </span>the<span class="w"> </span>call.<span class="nt">&lt;/Say&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/Gather&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>Thank<span class="w"> </span>you<span class="w"> </span>for<span class="w"> </span>using<span class="w"> </span>the<span class="w"> </span>microphone<span class="w"> </span>test<span class="w"> </span>service.<span class="w"> </span>Goodbye.<span class="nt">&lt;/Say&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div>
+<p><strong>TwiML Elements Used</strong>:
+- <a href="https://www.twilio.com/docs/voice/twiml/say"><code>&lt;Say&gt;</code></a>: Converts text to speech to play to the caller
+- <a href="https://www.twilio.com/docs/voice/twiml/play"><code>&lt;Play&gt;</code></a>: Plays an audio file to the caller
+- <a href="https://www.twilio.com/docs/voice/twiml/gather"><code>&lt;Gather&gt;</code></a>: Collects digits pressed by the caller</p>
+<p><strong>Alternative Response</strong> (if no recording was made):
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>No<span class="w"> </span>recording<span class="w"> </span>was<span class="w"> </span>detected.<span class="w"> </span>Let&#39;s<span class="w"> </span>try<span class="w"> </span>again.<span class="nt">&lt;/Say&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Redirect&gt;</span>/voice/repeat<span class="nt">&lt;/Redirect&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div></p>
+<p><strong>Additional TwiML Elements Used</strong>:
+- <a href="https://www.twilio.com/docs/voice/twiml/redirect"><code>&lt;Redirect&gt;</code></a>: Redirects to another TwiML URL</p>
+<h3 id="post-playback">POST /playback<a class="headerlink" href="#post-playback" title="Permanent link">&para;</a></h3>
+<p>Processes the caller's choice after playback (record again or end the call).</p>
+<p><strong>Request</strong>:
+- Method: <code>POST</code>
+- Content-Type: <code>application/x-www-form-urlencoded</code>
+- Body: Twilio's standard <a href="https://www.twilio.com/docs/voice/twiml/gather#attributes-action">gather webhook parameters</a>
+  - <code>Digits</code>: The digits pressed by the caller (we expect <code>1</code> to record again)</p>
+<p><strong>Response</strong> (if <code>Digits</code> is <code>1</code>):
+- Content-Type: <code>text/xml</code>
+- Body: TwiML that redirects to the <code>/voice/repeat</code> endpoint to start another recording with brief instructions</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Redirect&gt;</span>/voice/repeat<span class="nt">&lt;/Redirect&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div>
+<p><strong>Response</strong> (for any other value or no input):
+- Content-Type: <code>text/xml</code>
+- Body: TwiML that ends the call with a goodbye message</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Response&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Say&gt;</span>Thank<span class="w"> </span>you<span class="w"> </span>for<span class="w"> </span>using<span class="w"> </span>the<span class="w"> </span>microphone<span class="w"> </span>test<span class="w"> </span>service.<span class="w"> </span>Goodbye.<span class="nt">&lt;/Say&gt;</span>
+<span class="nt">&lt;/Response&gt;</span>
+</code></pre></div>
+<h2 id="twiml-quick-reference">TwiML Quick Reference<a class="headerlink" href="#twiml-quick-reference" title="Permanent link">&para;</a></h2>
+<p>The application uses the following <a href="https://www.twilio.com/docs/voice/twiml">TwiML</a> elements:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+<th>Documentation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;Response&gt;</code></td>
+<td>Root element for all TwiML responses</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml">Docs</a></td>
+</tr>
+<tr>
+<td><code>&lt;Say&gt;</code></td>
+<td>Converts text to speech</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml/say">Docs</a></td>
+</tr>
+<tr>
+<td><code>&lt;Record&gt;</code></td>
+<td>Records caller's voice</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml/record">Docs</a></td>
+</tr>
+<tr>
+<td><code>&lt;Play&gt;</code></td>
+<td>Plays an audio file</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml/play">Docs</a></td>
+</tr>
+<tr>
+<td><code>&lt;Gather&gt;</code></td>
+<td>Collects caller's input</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml/gather">Docs</a></td>
+</tr>
+<tr>
+<td><code>&lt;Redirect&gt;</code></td>
+<td>Redirects to another endpoint</td>
+<td><a href="https://www.twilio.com/docs/voice/twiml/redirect">Docs</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="adding-custom-endpoints">Adding Custom Endpoints<a class="headerlink" href="#adding-custom-endpoints" title="Permanent link">&para;</a></h2>
+<p>If you want to extend the application with additional functionality, you can add new endpoints in <code>main.go</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Example of adding a new endpoint for call statistics</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/stats&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleCallStats</span><span class="p">)</span>
+
+<span class="c1">// Implementation</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">handleCallStats</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Your code here to retrieve and return call statistics</span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;total_calls&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;total_recordings&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">250</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;average_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.5</span><span class="p">,</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="webhook-verification">Webhook Verification<a class="headerlink" href="#webhook-verification" title="Permanent link">&para;</a></h2>
+<p>For production deployments, it's recommended to verify that incoming requests are actually from Twilio. You can implement this by adding middleware to validate the request signature:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Simplified example of Twilio signature validation middleware</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">twilioAuthMiddleware</span><span class="p">()</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Get Twilio signature from header</span>
+<span class="w">        </span><span class="nx">twilioSignature</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">GetHeader</span><span class="p">(</span><span class="s">&quot;X-Twilio-Signature&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// Get request URL and form values</span>
+<span class="w">        </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;https://&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">Host</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Path</span>
+
+<span class="w">        </span><span class="c1">// Validate the signature (simplified example)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">validateTwilioSignature</span><span class="p">(</span><span class="nx">twilioSignature</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">Form</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nx">AbortWithStatus</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>See Twilio's <a href="https://www.twilio.com/docs/usage/security">Security documentation</a> for more details on webhook validation.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
