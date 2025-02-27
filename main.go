@@ -22,7 +22,8 @@ func main() {
 	router := gin.Default()
 
 	// Routes for Twilio webhooks
-	router.POST("/voice", handleIncomingCall)
+	router.POST("/voice", handleFirstTimeCall)
+	router.POST("/voice/repeat", handleRepeatCall)
 	router.POST("/record", handleRecording)
 	router.POST("/playback", handlePlayback)
 
@@ -39,11 +40,29 @@ func main() {
 	}
 }
 
-// handleIncomingCall responds to incoming calls with TwiML to greet and start recording
-func handleIncomingCall(c *gin.Context) {
+// handleFirstTimeCall responds to first-time callers with detailed instructions
+func handleFirstTimeCall(c *gin.Context) {
 	const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say>Welcome to the microphone test service. After the beep, please speak to test your microphone. When finished, press the pound key.</Say>
+    <Say>Welcome to the microphone test service. This tool will help you test your microphone quality. After the beep, please speak normally to test your microphone. When you're finished recording, press the pound key. You'll then hear your recording played back, allowing you to evaluate your microphone's sound quality.</Say>
+    <Record
+        action="/record"
+        maxLength="30"
+        finishOnKey="#"
+        playBeep="true"
+        trim="trim-silence"
+    />
+</Response>`
+
+	c.Header("Content-Type", "text/xml")
+	c.String(http.StatusOK, twiml)
+}
+
+// handleRepeatCall responds to repeat callers with briefer instructions
+func handleRepeatCall(c *gin.Context) {
+	const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say>Speak after the beep. Press pound when done.</Say>
     <Record
         action="/record"
         maxLength="30"
@@ -66,7 +85,7 @@ func handleRecording(c *gin.Context) {
 		const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say>No recording was detected. Let's try again.</Say>
-    <Redirect>/voice</Redirect>
+    <Redirect>/voice/repeat</Redirect>
 </Response>`
 		c.Header("Content-Type", "text/xml")
 		c.String(http.StatusOK, twiml)
@@ -93,10 +112,10 @@ func handlePlayback(c *gin.Context) {
 	digits := c.PostForm("Digits")
 
 	if digits == "1" {
-		// Redirect to the initial voice handler to start a new recording
+		// Redirect to the repeat voice handler for shorter instructions on subsequent recordings
 		const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Redirect>/voice</Redirect>
+    <Redirect>/voice/repeat</Redirect>
 </Response>`
 		c.Header("Content-Type", "text/xml")
 		c.String(http.StatusOK, twiml)
