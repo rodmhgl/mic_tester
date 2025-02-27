@@ -22,8 +22,12 @@ func main() {
 	router := gin.Default()
 
 	// Routes for Twilio webhooks
-	router.POST("/voice", handleFirstTimeCall)
-	router.POST("/voice/repeat", handleRepeatCall)
+	router.POST("/voice", func(c *gin.Context) {
+		handleVoice(c, true) // First-time call with detailed instructions
+	})
+	router.POST("/voice/repeat", func(c *gin.Context) {
+		handleVoice(c, false) // Repeat call with brief instructions
+	})
 	router.POST("/record", handleRecording)
 	router.POST("/playback", handlePlayback)
 
@@ -40,29 +44,18 @@ func main() {
 	}
 }
 
-// handleFirstTimeCall responds to first-time callers with detailed instructions
-func handleFirstTimeCall(c *gin.Context) {
-	const twiml = `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-    <Say>Welcome to the microphone test service. This tool will help you test your microphone quality. After the beep, please speak normally to test your microphone. When you're finished recording, press the pound key. You'll then hear your recording played back, allowing you to evaluate your microphone's sound quality.</Say>
-    <Record
-        action="/record"
-        maxLength="30"
-        finishOnKey="#"
-        playBeep="true"
-        trim="trim-silence"
-    />
-</Response>`
+// handleVoice responds to callers with appropriate instructions based on whether it's their first time
+func handleVoice(c *gin.Context, isFirstTime bool) {
+	// Select the appropriate message based on whether it's a first-time or repeat caller
+	message := "Speak after the beep. Press pound when done."
+	if isFirstTime {
+		message = "Welcome to the microphone test service. This tool will help you test your microphone quality. After the beep, please speak normally to test your microphone. When you're finished recording, press the pound key. You'll then hear your recording played back, allowing you to evaluate your microphone's sound quality."
+	}
 
-	c.Header("Content-Type", "text/xml")
-	c.String(http.StatusOK, twiml)
-}
-
-// handleRepeatCall responds to repeat callers with briefer instructions
-func handleRepeatCall(c *gin.Context) {
-	const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+	// Generate TwiML with the appropriate message
+	twiml := `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say>Speak after the beep. Press pound when done.</Say>
+    <Say>` + message + `</Say>
     <Record
         action="/record"
         maxLength="30"
