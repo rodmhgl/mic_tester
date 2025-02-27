@@ -4,11 +4,11 @@ This document provides details about the API endpoints exposed by the Twilio Mic
 
 ## Endpoints
 
-The application exposes three main endpoints that handle different stages of the call flow:
+The application exposes four main endpoints that handle different stages of the call flow:
 
 ### POST /voice
 
-Handles incoming calls and initiates the recording process.
+Handles incoming first-time calls with detailed instructions.
 
 **Request**:
 - Method: `POST`
@@ -17,12 +17,12 @@ Handles incoming calls and initiates the recording process.
 
 **Response**:
 - Content-Type: `text/xml`
-- Body: TwiML that welcomes the caller and starts recording
+- Body: TwiML that gives detailed instructions and starts recording
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say>Welcome to the microphone test service. After the beep, please speak to test your microphone. When finished, press the pound key.</Say>
+    <Say>Welcome to the microphone test service. This tool will help you test your microphone quality. After the beep, please speak normally to test your microphone. When you're finished recording, press the pound key. You'll then hear your recording played back, allowing you to evaluate your microphone's sound quality.</Say>
     <Record
         action="/record"
         maxLength="30"
@@ -33,7 +33,34 @@ Handles incoming calls and initiates the recording process.
 </Response>
 ```
 
-**TwiML Elements Used**:
+### POST /voice/repeat
+
+Handles subsequent recording requests with briefer instructions.
+
+**Request**:
+- Method: `POST`
+- Content-Type: `application/x-www-form-urlencoded`
+- Body: Twilio's standard voice webhook parameters
+
+**Response**:
+- Content-Type: `text/xml`
+- Body: TwiML that gives brief instructions and starts recording
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say>Speak after the beep. Press pound when done.</Say>
+    <Record
+        action="/record"
+        maxLength="30"
+        finishOnKey="#"
+        playBeep="true"
+        trim="trim-silence"
+    />
+</Response>
+```
+
+**TwiML Elements Used for /voice and /voice/repeat**:
 - [`<Say>`](https://www.twilio.com/docs/voice/twiml/say): Converts text to speech to play to the caller
 - [`<Record>`](https://www.twilio.com/docs/voice/twiml/record): Records the caller's voice and sends it to the specified action URL
 
@@ -75,7 +102,7 @@ Receives the recording data and plays it back to the caller.
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say>No recording was detected. Let's try again.</Say>
-    <Redirect>/voice</Redirect>
+    <Redirect>/voice/repeat</Redirect>
 </Response>
 ```
 
@@ -94,12 +121,12 @@ Processes the caller's choice after playback (record again or end the call).
 
 **Response** (if `Digits` is `1`):
 - Content-Type: `text/xml`
-- Body: TwiML that redirects to the `/voice` endpoint to start another recording
+- Body: TwiML that redirects to the `/voice/repeat` endpoint to start another recording with brief instructions
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Redirect>/voice</Redirect>
+    <Redirect>/voice/repeat</Redirect>
 </Response>
 ```
 
